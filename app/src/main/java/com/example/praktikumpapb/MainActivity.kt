@@ -26,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
-                        Tugas3()
+                        Tugas4()
                     }
                 }
             }
@@ -172,6 +173,68 @@ fun Tugas3(modifier: Modifier = Modifier) {
     Button(onClick = {
         displayText = "Halo " + namaText + " dengan NIM " + nimText + " 👋"
     }) {
+        Text("Submit")
+    }
+
+    Text(displayText)
+}
+
+@Composable
+fun Tugas4(modifier: Modifier = Modifier) {
+    var namaText by remember { mutableStateOf("") }
+    var nimText by remember { mutableStateOf("") }
+    var displayText by remember { mutableStateOf("") }
+    val personIcon = painterResource(id = R.drawable.person)
+    val numberIcon = painterResource(id = R.drawable.number)
+
+    TextField(
+        value = namaText,
+        onValueChange = { namaText = it.filter { it.isLetter() } },
+        label = { Text("Nama") },
+        leadingIcon = {
+            Icon(
+                painter = personIcon,
+                contentDescription = "Person"
+            )
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        modifier = Modifier.fillMaxWidth() // Make TextFields fill width
+    )
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    TextField(
+        value = nimText,
+        onValueChange = {
+            if (it.isEmpty() || it.matches(Regex("^\\d+\$"))) {
+                nimText = it
+            }
+        },
+        label = { Text("NIM") },
+        leadingIcon = {
+            Icon(
+                painter = numberIcon,
+                contentDescription = "Number"
+            )
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    Spacer(modifier = Modifier.height(10.dp))
+
+    val isButtonEnabled by remember(namaText, nimText) {
+        derivedStateOf {
+            namaText.isNotBlank() && nimText.isNotBlank()
+        }
+    }
+
+    Button(
+        onClick = {
+            displayText = "Halo " + namaText + " dengan NIM " + nimText + " 👋"
+        },
+        enabled = isButtonEnabled
+    ) {
         Text("Submit")
     }
 
