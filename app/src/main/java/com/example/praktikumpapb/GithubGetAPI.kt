@@ -6,5 +6,5 @@ import retrofit2.http.Path
 
 interface GithubGetAPI {
     @GET("users/{username}")
-    fun getUser(@Path("username") username: String): Call<GitHubUser>
+    fun getUser(@Path("username") username: String): Call<GithubUser>
 }
