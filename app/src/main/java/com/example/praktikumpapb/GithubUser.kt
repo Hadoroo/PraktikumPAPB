@@ -5,7 +5,7 @@ data class GithubUser(
     val id: Int,
     val avatar_url: String,
     val name: String,
-    val public_repos: Int
+    val public_repos: Int,
     val followers: Int,
     val following: Int,
 )

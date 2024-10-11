@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = awake) {
                 composable("login") { Login(auth, navController = navController) }
                 composable("list") { List(auth, navController = navController) }
-                composable("profile") { Profile(auth, navController = navController) }
+                composable("profile") { Profile() }
             }
 
 //            PraktikumPAPBTheme {
