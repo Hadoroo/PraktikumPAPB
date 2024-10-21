@@ -1,4 +1,4 @@
-package com.example.praktikumpapb
+package com.example.praktikumpapb.data
 
 data class Matkul(
     val hari: String,

@@ -4,9 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.praktikumpapb.Screen.*
+import com.example.praktikumpapb.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -24,41 +51,89 @@ class MainActivity : ComponentActivity() {
 
             auth = Firebase.auth
             val user = auth.currentUser
-            var awake = ""
 
-            if (user == null) {
-                awake = "login"
+            if (user != null) {
+                MainActivityContent(auth = auth, navController = navController, awake = "login")
             } else {
-                awake = "list"
+                MainActivityContent(auth = auth, navController = navController, awake = Screen.Matkul.route)
             }
-
-            NavHost(navController = navController, startDestination = awake) {
-                composable("login") { Login(auth, navController = navController) }
-                composable("list") { List(auth, navController = navController) }
-                composable("profile") { Profile() }
-            }
-
-//            PraktikumPAPBTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Column (
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(innerPadding),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ){
-//                        val context = LocalContext.current
-//                        Tugas4(context)
-//                        NavHost(navController = navController, startDestination = ""){
-//                            composable("login"){Login(navController = navController)}
-//                            composable("list"){List(navController = navController)}
-//                            composable("profile"){Profile(navController = navController)}
-//                        }
-//                    }
-//                }
-//            }
         }
     }
 }
 
+@Composable
+fun MainActivityContent(navController: NavHostController = rememberNavController(), auth: FirebaseAuth, awake: String) {
+    Scaffold(
+        bottomBar = {
+            if(navController.currentBackStackEntryAsState().value?.destination?.route != "login"){
+                BottomBar(navController = navController)
+            }
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = awake,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(Screen.Matkul.route) { Matkul(auth = auth, navController = navController) }
+            composable(Screen.Profile.route) { Profile() }
+            composable(Screen.Tugas.route) { Tugas() }
+            composable("login") { Login(auth = auth, navController = navController) }
+        }
+    }
+}
 
+@Composable
+fun BottomBar(modifier: Modifier = Modifier, navController: NavHostController) {
+    BottomAppBar(
+        actions = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                IconButton(
+                    onClick = { navController.navigate(Screen.Matkul.route) },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(Icons.Filled.DateRange, contentDescription = "Jadwal")
+                        Text("Jadwal")
+                    }
+                }
+                IconButton(
+                    onClick = { navController.navigate(Screen.Tugas.route) },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(Icons.Filled.Menu, contentDescription = "Tugas")
+                        Text("Tugas")
+                    }
+                }
+                IconButton(
+                    onClick = { navController.navigate(Screen.Profile.route) },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(Icons.Filled.Person, contentDescription = "Profile")
+                        Text("Profile")
+                    }
+                }
+            }
+
+
+
+        }
+    )
+}

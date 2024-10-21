@@ -1,9 +1,10 @@
-package com.example.praktikumpapb
+package com.example.praktikumpapb.retrofit
 
+import com.example.praktikumpapb.data.GithubUser
 import retrofit2.HttpException
 
 class GithubUserRepository {
-    suspend fun getUser(user: String): GithubUser{
+    suspend fun getUser(user: String): GithubUser {
         return try{
             val response = ApiConfig.getApiService().getUser(user)
             response

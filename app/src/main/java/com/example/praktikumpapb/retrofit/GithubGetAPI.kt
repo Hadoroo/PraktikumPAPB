@@ -1,6 +1,6 @@
-package com.example.praktikumpapb
+package com.example.praktikumpapb.retrofit
 
-import retrofit2.Call
+import com.example.praktikumpapb.data.GithubUser
 import retrofit2.http.GET
 import retrofit2.http.Path
 

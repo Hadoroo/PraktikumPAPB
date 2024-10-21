@@ -25,7 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.praktikumpapb.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -100,7 +102,7 @@ fun Login(auth: FirebaseAuth, navController: NavHostController) {
                     auth.signInWithEmailAndPassword(emailText, nimText)
                         .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        navController.navigate("list")
+                        navController.navigate(Screen.Matkul.route)
                     } else {
                         displayText = "email atau password salah"
                     }

@@ -2,4 +2,9 @@
     <string name="app_name">PraktikumPAPB</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_tugas">Tugas</string>
+    <string name="title_activity_profile_screen">ProfileScreen</string>
+    <string name="title_activity_matkul_screen">MatkulScreen</string>
+    <string name="title_activity_tugas_screen">TugasScreen</string>
 </resources>

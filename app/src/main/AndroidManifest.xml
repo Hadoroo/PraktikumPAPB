@@ -13,6 +13,31 @@
         android:theme="@style/Theme.PraktikumPAPB"
         tools:targetApi="31">
         <activity
+            android:name=".Screen.TugasScreen"
+            android:exported="false"
+            android:label="@string/title_activity_tugas_screen"
+            android:theme="@style/Theme.PraktikumPAPB" />
+        <activity
+            android:name=".Screen.MatkulScreen"
+            android:exported="false"
+            android:label="@string/title_activity_matkul_screen"
+            android:theme="@style/Theme.PraktikumPAPB" />
+        <activity
+            android:name=".Screen.ProfileScreen"
+            android:exported="false"
+            android:label="@string/title_activity_profile_screen"
+            android:theme="@style/Theme.PraktikumPAPB" />
+        <activity
+            android:name=".Tugas"
+            android:exported="false"
+            android:label="@string/title_activity_tugas"
+            android:theme="@style/Theme.PraktikumPAPB" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.PraktikumPAPB" />
+        <activity
             android:name=".Login"
             android:exported="false"
             android:label="@string/title_activity_login"
