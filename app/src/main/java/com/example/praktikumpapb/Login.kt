@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -25,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.praktikumpapb.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
@@ -43,7 +41,7 @@ fun Login(auth: FirebaseAuth, navController: NavHostController) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -101,11 +99,11 @@ fun Login(auth: FirebaseAuth, navController: NavHostController) {
                 onClick = {
                     auth.signInWithEmailAndPassword(emailText, nimText)
                         .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        navController.navigate(Screen.Matkul.route)
-                    } else {
-                        displayText = "email atau password salah"
-                    }
+                            if (task.isSuccessful) {
+                                navController.navigate(Screen.Matkul.route)
+                            } else {
+                                displayText = "email atau password salah"
+                            }
                         }
                 },
                 enabled = isButtonEnabled
@@ -116,7 +114,6 @@ fun Login(auth: FirebaseAuth, navController: NavHostController) {
             Text(displayText)
         }
     }
-
 
 
 }

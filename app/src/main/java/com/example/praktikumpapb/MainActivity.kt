@@ -1,5 +1,6 @@
 package com.example.praktikumpapb
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,28 +12,26 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.praktikumpapb.Screen.*
+import com.example.praktikumpapb.Screen.Matkul
+import com.example.praktikumpapb.Screen.Profile
+import com.example.praktikumpapb.Screen.Tugas
 import com.example.praktikumpapb.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -55,17 +54,27 @@ class MainActivity : ComponentActivity() {
             if (user != null) {
                 MainActivityContent(auth = auth, navController = navController, awake = "login")
             } else {
-                MainActivityContent(auth = auth, navController = navController, awake = Screen.Matkul.route)
+                MainActivityContent(
+                    auth = auth,
+                    navController = navController,
+                    awake = Screen.Matkul.route
+                )
             }
         }
     }
 }
 
 @Composable
-fun MainActivityContent(navController: NavHostController = rememberNavController(), auth: FirebaseAuth, awake: String) {
+fun MainActivityContent(
+    navController: NavHostController = rememberNavController(),
+    auth: FirebaseAuth,
+    awake: String,
+    application: Application = LocalContext.current.applicationContext as Application
+) {
+
     Scaffold(
         bottomBar = {
-            if(navController.currentBackStackEntryAsState().value?.destination?.route != "login"){
+            if (navController.currentBackStackEntryAsState().value?.destination?.route != "login") {
                 BottomBar(navController = navController)
             }
         }
@@ -77,7 +86,7 @@ fun MainActivityContent(navController: NavHostController = rememberNavController
         ) {
             composable(Screen.Matkul.route) { Matkul(auth = auth, navController = navController) }
             composable(Screen.Profile.route) { Profile() }
-            composable(Screen.Tugas.route) { Tugas() }
+            composable(Screen.Tugas.route) { Tugas(application = application) }
             composable("login") { Login(auth = auth, navController = navController) }
         }
     }
@@ -131,7 +140,6 @@ fun BottomBar(modifier: Modifier = Modifier, navController: NavHostController) {
                     }
                 }
             }
-
 
 
         }
